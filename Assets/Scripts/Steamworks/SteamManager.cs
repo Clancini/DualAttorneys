@@ -25,6 +25,8 @@ using Steamworks;
 public class SteamManager : MonoBehaviour
 {
 #if !DISABLESTEAMWORKS
+    protected Callback<SteamRelayNetworkStatus_t> relayNetworkStatusChanged;    // Callback for when the SDR (Steam Datagram Relay) status changes.
+
     protected static bool s_EverInitialized = false;
 
     protected static SteamManager s_instance;
@@ -141,6 +143,12 @@ public class SteamManager : MonoBehaviour
             return;
         }
 
+        // Initialize Steam Datagram Relay, so it is already ready when we need it.
+        SteamNetworkingUtils.InitRelayNetworkAccess();
+
+        // Set up our callback to receive the status of the Steam Datagram Relay every time it changes.
+        relayNetworkStatusChanged = Callback<SteamRelayNetworkStatus_t>.Create(OnRelayNetworkStatusChanged);
+
         s_EverInitialized = true;
     }
 
@@ -195,6 +203,11 @@ public class SteamManager : MonoBehaviour
 
         // Run Steam client callbacks
         SteamAPI.RunCallbacks();
+    }
+
+    protected void OnRelayNetworkStatusChanged(SteamRelayNetworkStatus_t status)
+    {
+        Debug.Log("[Steamworks.NET] Steam Datagram Relay status: " + status.m_eAvail);
     }
 #else
 	public static bool Initialized {
