@@ -143,6 +143,8 @@ public class SteamManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("[Steamworks.NET] SteamAPI_Init() was successful.");
+
         // Initialize Steam Datagram Relay, so it is already ready when we need it.
         SteamNetworkingUtils.InitRelayNetworkAccess();
 

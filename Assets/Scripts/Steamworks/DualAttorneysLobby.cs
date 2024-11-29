@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class DualAttorneysLobby
 {
+    /// <summary>
+    /// Handles the creation and joining of Steam lobbies, as well as the P2P connection between players. <br/>
+    /// Handles the loopback socket for testing network code. <br/>
+    /// </summary>
     private static DualAttorneysLobby lobbyInstance;
+
     public static DualAttorneysLobby Instance
     {
         get
@@ -50,7 +55,7 @@ public class DualAttorneysLobby
     /// Returns the loopback socket instance. <br/>
     /// It is not guaranteed that the loopback socket is being used. <br/>
     /// Does NOT handle connection status changes and should only be used for testing network code.  <br/>
-    /// Does NOT need a lobby to work.
+    /// Does NOT need a lobby to work but won't be able to access Steam's information about the other player. <br/>
     /// </summary>
     public LoopbackSocket loopbackSocket { get; private set; } = LoopbackSocket.Instance;
 
