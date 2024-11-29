@@ -4,7 +4,7 @@ using UnityEngine;
 public static class SteamLocal
 {
     /// <summary>
-    /// Returns the Steam ID of the local user.
+    /// Returns the Steam ID of the local user. <br/>
     /// Will return CSteamID.Nil if Steam is not initialized.
     /// </summary>
     public static CSteamID LocalSteamID
@@ -20,7 +20,7 @@ public static class SteamLocal
     }
 
     /// <summary>
-    /// Returns the Steam name of the local user as appears in the community profile.
+    /// Returns the Steam name of the local user as appears in the community profile. <br/>
     /// Will return "Not Initialized" if Steam is not initialized.
     /// </summary>
     public static string LocalPersonaName
@@ -36,7 +36,7 @@ public static class SteamLocal
     }
 
     /// <summary>
-    /// Returns the state of the local user as appears in the friends list (online, away, etc).
+    /// Returns the state of the local user as appears in the friends list (online, away, etc). <br/>
     /// Will return k_EPersonaStateOffline if Steam is not initialized.
     /// </summary>
     public static EPersonaState LocalFriendState
@@ -52,8 +52,8 @@ public static class SteamLocal
     }
 
     /// <summary>
-    /// Returns the avatar handle of the local user as medium (64x64) size.
-    /// To be used with GetImageSize and GetImageRGBA.
+    /// Returns the avatar handle of the local user as medium (64x64) size. <br/>
+    /// To be used with GetImageSize and GetImageRGBA. <br/>
     /// Will return 0 if Steam is not initialized or if the user has no avatar.
     /// </summary>
     public static int LocalMediumAvatarHandle
@@ -69,7 +69,7 @@ public static class SteamLocal
     }
 
     /// <summary>
-    /// Returns the local user's medium (64x64) avatar as a Texture2D.
+    /// Returns the local user's medium (64x64) avatar as a Texture2D. <br/>
     /// Will return null if Steam is not initialized or if the user has no avatar.
     /// </summary>
     public static Texture2D GetLocalMediumAvatar()

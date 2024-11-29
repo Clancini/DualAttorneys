@@ -4,8 +4,8 @@ using UnityEngine;
 public static class SteamFriend
 {
     /// <summary>
-    /// Returns the alias of the friend as appears in the friends list.
-    /// Will return "Not Initialized" if Steam is not initialized.
+    /// Returns the alias of the friend as appears in the friends list. <br/>
+    /// Will return "Not Initialized" if Steam is not initialized. <br/>
     /// Will return "" or "[unknown]" if the friend is not found.
     /// </summary>
     public static string GetFriendPersonaName(CSteamID steamID)
@@ -18,7 +18,7 @@ public static class SteamFriend
     }
 
     /// <summary>
-    /// Returns an handle to the friend's avatar as medium (64x64) size.
+    /// Returns an handle to the friend's avatar as medium (64x64) size. <br/>
     /// Will return 0 if Steam is not initialized or if the friend has no avatar.
     /// </summary>
     public static int GetFriendMediumAvatarHandle(CSteamID steamID)
@@ -31,7 +31,7 @@ public static class SteamFriend
     }
 
     /// <summary>
-    /// Returns the friend's avatar as (a medium size) 64x64 Texture2D.
+    /// Returns the friend's avatar as (a medium size) 64x64 Texture2D.  <br/>
     /// Will return null if Steam is not initialized, if the friend is not found, or if the friend has no avatar.
     /// </summary>
     public static Texture2D GetFriendMediumAvatar(CSteamID steamID)
@@ -59,7 +59,7 @@ public static class SteamFriend
     }
 
     /// <summary>
-    /// Returns the state of the friend as appears in the friends list (online, away, etc).
+    /// Returns the state of the friend as appears in the friends list (online, away, etc). <br/>
     /// Will return k_EPersonaStateOffline if Steam is not initialized.
     /// </summary>
     public static EPersonaState GetFriendPersonaState(CSteamID steamID)
