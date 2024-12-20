@@ -8,7 +8,8 @@ public static class NetMessageDefiner
     /// </summary>
     public enum MessageType : ushort
     {
-
+        Ping = 0,   // Debug message to test network functionality
+        Pong = 1    // Response to Ping
     }
 
     /// <summary>
