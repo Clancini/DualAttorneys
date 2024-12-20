@@ -27,7 +27,7 @@ public class NetworkSender
 
     ConcurrentQueue<KeyValuePair<MessageType, object[]>> messageQueue = new ConcurrentQueue<KeyValuePair<MessageType, object[]>>();
 
-    const int failDelayMS = 10; // Delay in ms to wait before trying again in case there are no messages to avoid hogging the CPU
+    const int failDelayMS = NetMessageDefiner.failDelayMS;
 
     private NetworkSender()
     {
@@ -39,7 +39,10 @@ public class NetworkSender
     // Where the message is turned into IntPtr and sent
     private void SendMessage() 
     {
-        while(isRunning)
+        byte[] msgType = new byte[2]; // The message type is 2 bytes long
+        List<byte> paramsAsBytes = new List<byte>(); // The parameters are stored in a list of bytes
+
+        while (isRunning)
         {
             if(DualAttorneysLobby.Instance.connection == HSteamNetConnection.Invalid) // If not connected, there's no point in going further
             {
@@ -50,8 +53,10 @@ public class NetworkSender
             KeyValuePair<MessageType, object[]> message;
             if (messageQueue.TryDequeue(out message))
             {
-                byte[] msgType = BitConverter.GetBytes((ushort)message.Key);
-                List<byte> paramsAsBytes = new List<byte>();
+                msgType[0] = (byte)(((ushort)message.Key >> 8) & 0xFF); // Get the first byte of the message type
+                msgType[1] = (byte)((ushort)message.Key & 0xFF); // Get the second byte of the message type
+
+                paramsAsBytes.Clear(); // Clear the list of parameters
 
                 // For each parameter in the message, we convert it into byte array
                 // We then add the whole byte array to the list

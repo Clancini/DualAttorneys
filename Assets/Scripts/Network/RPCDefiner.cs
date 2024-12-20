@@ -1,4 +1,4 @@
-public class RPCDefiner
+public static class RPCDefiner
 {
     public enum RPCType : ushort
     {

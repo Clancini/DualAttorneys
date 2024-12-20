@@ -24,7 +24,7 @@ public class NetworkReceiver
 
     public ConcurrentQueue<byte[]> receivedMessages { get; private set; } = new ConcurrentQueue<byte[]>();
 
-    const int failDelayMS = 10; // Delay in ms to wait before trying again in case there are no messages to avoid hogging the CPU
+    const int failDelayMS = NetMessageDefiner.failDelayMS;
 
     public NetworkReceiver()
     {
@@ -35,7 +35,7 @@ public class NetworkReceiver
 
     void ReceiveMessage()
     {
-        IntPtr[] messageBuffer = new IntPtr[16];
+        IntPtr[] messageBuffer = new IntPtr[NetMessageDefiner.maxMessagedReadAtOnce];
 
         while (isRunning)
         {
@@ -45,7 +45,7 @@ public class NetworkReceiver
                 return;
             }
 
-            int numMessages = SteamNetworkingSockets.ReceiveMessagesOnConnection(DualAttorneysLobby.Instance.connection, messageBuffer, messageBuffer.Length);
+            int numMessages = SteamNetworkingSockets.ReceiveMessagesOnConnection(DualAttorneysLobby.Instance.connection, messageBuffer, NetMessageDefiner.maxMessagedReadAtOnce);
             // Above, get the number of waiting-to-be-read messages. Below, if that number is  0, skip the rest of the loop else, continue parsing
             if (numMessages <= 0)
             {

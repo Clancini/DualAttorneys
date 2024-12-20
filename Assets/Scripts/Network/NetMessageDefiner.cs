@@ -3,6 +3,16 @@ using System;
 public static class NetMessageDefiner
 {
     /// <summary>
+    /// Delay in ms to wait before trying again in case there are no messages to avoid hogging the CPU
+    /// </summary>
+    public const int failDelayMS = 20;
+
+    /// <summary>
+    /// Maximum number of messages to read at once. Only used in NetworkReceiver.cs
+    /// </summary>
+    public const int maxMessagedReadAtOnce = 16;
+
+    /// <summary>
     /// What the associated message is about. <br/>
     /// Represented by a ushort (2 bytes)
     /// </summary>
