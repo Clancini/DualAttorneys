@@ -51,20 +51,6 @@ public class DualAttorneysLobby
     /// </summary>
     public CSteamID otherSteamID { get; private set; } = CSteamID.Nil;
 
-    /// <summary>
-    /// Returns the loopback socket instance. <br/>
-    /// It is not guaranteed that the loopback socket is being used. <br/>
-    /// Does NOT handle connection status changes and should only be used for testing network code.  <br/>
-    /// Does NOT need a lobby to work but won't be able to access Steam's information about the other player. <br/>
-    /// </summary>
-    public LoopbackSocket loopbackSocket { get; private set; } = LoopbackSocket.Instance;
-
-    /// <summary>
-    /// Returns whether the loopback socket should be used over P2P sockets. <br/>
-    /// Always false if not in the editor or development build.
-    /// </summary>
-    public bool useLoopbackSocket { get; private set; } = false;
-
     Callback<LobbyCreated_t> lobbyCreated;
     Callback<LobbyEnter_t> lobbyEntered;
     Callback<SteamNetConnectionStatusChangedCallback_t> connectionStatusChange;
@@ -139,7 +125,7 @@ public class DualAttorneysLobby
                     "\nm_szEndDebug: {1}", callback.m_info.m_eEndReason, callback.m_info.m_szEndDebug);
 
                 SteamLobbyUtils.CloseConnection();
-
+                connection = HSteamNetConnection.Invalid;
                 break;
 
             case ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_ProblemDetectedLocally:    // Both receive this callback when an error occurs locally (e.g. timeout, auth, etc...).
@@ -149,27 +135,23 @@ public class DualAttorneysLobby
                     "\nm_szEndDebug: {1}", callback.m_info.m_eEndReason, callback.m_info.m_szEndDebug);
 
                 SteamLobbyUtils.CloseConnection();
-
+                connection = HSteamNetConnection.Invalid;
                 break;
         }
     }
 
-    /// <summary>
-    /// Toggles whether the loopback socket should be used over P2P sockets. <br/>
-    /// Can only be used in the editor and development builds.
-    /// </summary>
-    /// <param name="enabled"></param>
-    public void UseLoopbackSocket(bool enabled)
-    {
-        if (!Application.isEditor && !Debug.isDebugBuild)
-            return;
-           
-        useLoopbackSocket = enabled;
-    }
-
     public void Destory()
     {
+        if(listenSocket != HSteamListenSocket.Invalid)
+        { 
+            SteamNetworkingSockets.CloseListenSocket(listenSocket);
+            listenSocket = HSteamListenSocket.Invalid;
+        }
+
         SteamLobbyUtils.CloseConnection();
+
+        connection = HSteamNetConnection.Invalid;
+
         SteamLobbyUtils.LeaveLobby();
     }
 }
